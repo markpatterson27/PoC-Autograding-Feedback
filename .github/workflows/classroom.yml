@@ -22,6 +22,7 @@ jobs:
       - uses: education/autograding@v1
         name: "** Grading and Feedback **"
         id: autograder
+        continue-on-error: true
 
       # need to parse line endings
       # see https://github.community/t/set-output-truncates-multiline-strings/16852/3
@@ -34,7 +35,14 @@ jobs:
           message="${message//$'\n'/'%0A'}"
           message="${message//$'\r'/'%0D'}"
           echo "::set-output name=message::$message"
-        
+
+      # fail job if autograder returns failed
+      # outcome can be 'success', 'failure', 'cancelled', or 'skipped'
+      # trigger fail either on !success or on failure depending on preference
+      - name: check autograder pass fail
+        if: ${{ steps.autograder.outcome != 'success' }}
+        run: exit 1
+
     outputs:
       grading-score: ${{ steps.autograder.outputs.Points }}
       feedback-message: ${{ steps.feedback.outputs.message }}
