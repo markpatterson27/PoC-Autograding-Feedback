@@ -24,7 +24,7 @@ exercise1() {
 }
 
 exercise2() {
-    tests="pass"
+    tests="fail"
 
     feedback="\n## Exercise 2\n\n"
     feedback+="Output from tests: $tests\n\n"
@@ -33,7 +33,8 @@ exercise2() {
         feedback+=":tada: Congratulations. You have successfully completed Exercise 1.\n"
         echo "pass"
     else
-        feedback+="You have not successfully completed this exercise.\n"
+        feedback+="You have not successfully completed this exercise."
+        feedback+="Try fixing any errors. :warning:\n"
         echo "fail"
     fi
 
