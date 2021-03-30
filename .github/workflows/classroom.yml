@@ -29,6 +29,7 @@ jobs:
         id: feedback
         run: |
           message=`cat .github/feedback.md`
+          message+="\nAutograder Score: ${{ steps.autograder.outputs.Points }}"
           message="${message//'%'/'%25'}"
           message="${message//$'\n'/'%0A'}"
           message="${message//$'\r'/'%0D'}"
