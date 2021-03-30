@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # reset feedback.md contents
-      - run: echo "#Autograder Feedback" > .github/feedback.md
+      - run: echo "# Autograder Feedback" > .github/feedback.md
 
       # run grading
       # add id to step so outputs can be referenced
