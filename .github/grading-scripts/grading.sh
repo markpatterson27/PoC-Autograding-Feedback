@@ -9,11 +9,11 @@ exercise1() {
     feedback+="Output from tests: $tests\n\n"
 
     if [[ $tests == "pass" ]]; then
-        feedback+=":tada: Congratulations. You have successfully completed Exercise 1.\n"
+        feedback+=":white_check_mark: Congratulations. :tada: You have successfully completed Exercise 1.\n"
         echo "pass"
     else
-        feedback+="You have not successfully completed this exercise."
-        feedback+="Have you tried ham instead of spam? :pig2:"
+        feedback+=":x: You have not successfully completed this exercise. "
+        feedback+="Have you tried ham instead of spam? :pig2:\n"
         echo "fail"
     fi
 
@@ -30,10 +30,10 @@ exercise2() {
     feedback+="Output from tests: $tests\n\n"
 
     if [[ $tests == "pass" ]]; then
-        feedback+=":tada: Congratulations. You have successfully completed Exercise 1.\n"
+        feedback+=":white_check_mark: Congratulations. :tada: You have successfully completed Exercise 2.\n"
         echo "pass"
     else
-        feedback+="You have not successfully completed this exercise."
+        feedback+=":x: You have not successfully completed this exercise. "
         feedback+="Try fixing any errors. :warning:\n"
         echo "fail"
     fi
@@ -49,10 +49,10 @@ exercise3() {
     feedback+="Output from tests: $tests\n\n"
 
     if [[ $tests == "pass" ]]; then
-        feedback+=":tada: Congratulations. You have successfully completed Exercise 1.\n"
+        feedback+=":white_check_mark: Congratulations. :tada: You have successfully completed Exercise 3.\n"
         echo "pass"
     else
-        feedback+="You have not successfully completed this exercise. "
+        feedback+=":x: You have not successfully completed this exercise. "
         feedback+="Have you tried ham instead of spam? :pig2:\n"
         echo "fail"
     fi
@@ -68,10 +68,10 @@ exercise4() {
     feedback+="Output from tests: $tests\n\n"
 
     if [[ $tests == "pass" ]]; then
-        feedback+=":tada: Congratulations. You have successfully completed Exercise 1.\n"
+        feedback+=":white_check_mark: Congratulations. :tada: You have successfully completed Exercise 4.\n"
         echo "pass"
     else
-        feedback+="You have not successfully completed this exercise. "
+        feedback+=":x: You have not successfully completed this exercise. "
         feedback+="Are there still bugs :bug: in your program?\n"
         echo "fail"
     fi
