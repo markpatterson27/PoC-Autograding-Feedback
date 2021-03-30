@@ -14,14 +14,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # reset feedback.md contents
+      - run: echo "#Autograder Feedback" > .github/feedback.md
+
       # run grading
       # add id to step so outputs can be referenced
       - uses: education/autograding@v1
         name: "** Grading and Feedback **"
         id: autograder
+
+      # need to parse line endings
+      # see https://github.community/t/set-output-truncates-multiline-strings/16852/3
+      - name: parse feedback.md to step output
+        id: feedback
+        run: |
+          message=`cat .github/feedback.md`
+          message="${message//'%'/'%25'}"
+          message="${message//$'\n'/'%0A'}"
+          message="${message//$'\r'/'%0D'}"
+          echo "::set-output name=message::$message"
         
     outputs:
       grading-score: ${{ steps.autograder.outputs.Points }}
+      feedback-message: ${{ steps.feedback.outputs.message }}
 
   # job to build custom status badges
   build-badges:
