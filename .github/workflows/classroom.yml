@@ -29,8 +29,8 @@ jobs:
       - name: parse feedback.md to step output
         id: feedback
         run: |
+          printf "\nAutograder Score: ${{ steps.autograder.outputs.Points }}" >> .github/feedback.md
           message=`cat .github/feedback.md`
-          message+="\nAutograder Score: ${{ steps.autograder.outputs.Points }}"
           message="${message//'%'/'%25'}"
           message="${message//$'\n'/'%0A'}"
           message="${message//$'\r'/'%0D'}"
