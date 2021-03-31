@@ -62,17 +62,16 @@ jobs:
           filename: .github/templates/feedback.md
 
       - uses: actions/github-script@v3
-        env:
-          MESSAGE: ${{ needs.build.outputs.feedback-message }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const { MESSAGE } = process.env
+            const commentBody = fs.readFileSync(".github/template/feedback.md", "utf8")
             github.issues.createComment({
               issue_number: '1',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${MESSAGE}`
+              body: commentBody
             })
 
   # job to build custom status badges
