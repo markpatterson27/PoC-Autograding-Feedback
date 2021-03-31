@@ -51,7 +51,7 @@ jobs:
   post-feedback:
     name: Post Feedback Comment
     runs-on: ubuntu-latest
-    if: always()
+    if: github.ref == 'ref/head/main'
     needs: build
     steps:
       - uses: actions/checkout@v2
