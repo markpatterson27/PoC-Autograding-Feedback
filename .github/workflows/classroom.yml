@@ -90,45 +90,45 @@ jobs:
               body: commentBody
             })
 
-  # # job to build custom status badges
-  # build-badges:
-  #   name: Build Points Badge
-  #   runs-on: ubuntu-latest
-  #   if: always()
-  #   needs: build
-  #   steps:
-  #     # need to checkout whole repo
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
+  # job to build custom status badges
+  build-badges:
+    name: Build Points Badge
+    runs-on: ubuntu-latest
+    if: always()
+    needs: build
+    steps:
+      # need to checkout whole repo
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-  #     # switch to badges branch
-  #     - run: git checkout badges || git checkout -b badges
+      # switch to badges branch
+      - run: git checkout badges || git checkout -b badges
 
-  #     # make dir for badges
-  #     - name: make badges dir
-  #       run: mkdir -p .github/badges
+      # make dir for badges
+      - name: make badges dir
+        run: mkdir -p .github/badges
 
-  #     # make points badge
-  #     - name: make points badge
-  #       uses: emibcn/badge-action@v1
-  #       with:
-  #         LABEL: 'Points'
-  #         STATUS: ${{ needs.build.outputs.grading-score }}
-  #         COLOR: cyan
-  #         path: '.github/badges/points.svg'
+      # make points badge
+      - name: make points badge
+        uses: emibcn/badge-action@v1
+        with:
+          LABEL: 'Points'
+          STATUS: ${{ needs.build.outputs.grading-score }}
+          COLOR: cyan
+          path: '.github/badges/points.svg'
 
-  #     # commit and push badge if score has changed
-  #     - name: Commit badge
-  #       run: |
-  #         git config --local user.email "action@github.com"
-  #         git config --local user.name "GitHub Action"
-  #         git add '.github/badges'
-  #         git commit -m "Add/Update badge"
-  #       continue-on-error: true
-  #     - name: Push badge commit
-  #       uses: ad-m/github-push-action@master
-  #       if: ${{ success() }}
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         branch: badges
+      # commit and push badge if score has changed
+      - name: Commit badge
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add '.github/badges'
+          git commit -m "Add/Update badge"
+        continue-on-error: true
+      - name: Push badge commit
+        uses: ad-m/github-push-action@master
+        if: ${{ success() }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: badges
