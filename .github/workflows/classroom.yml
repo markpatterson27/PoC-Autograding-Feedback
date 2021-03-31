@@ -51,24 +51,38 @@ jobs:
   post-feedback:
     name: Post Feedback Comment
     runs-on: ubuntu-latest
-    if: always()
+    if: github.ref == 'ref/head/main'
     needs: build
     steps:
       - uses: actions/checkout@v2
 
-      - uses: vafinvr/template-env-action@master
+      - name: prepare comment and substitute tokens
+        id: prep
+        uses: actions/github-script@v3
         env:
           test-output: ${{ needs.build.outputs.feedback-message }}
           points: ${{ needs.build.outputs.grading-score }}
         with:
-          filename: .github/templates/feedback.md
+          script: |
+            const fs = require('fs')
+            let commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
 
-      - uses: actions/github-script@v3
+            for (envName in process.env) {
+              commentBody = commentBody.replace("${"+envName+"}", process.env[envName])
+            }
+
+            return commentBody
+          result-encoding: string
+
+      - name: post comment
+        uses: actions/github-script@v3
+        env:
+          body: ${{ steps.prep.outputs.result }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const fs = require('fs')
-            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+            const { body } = process.env
+            const commentBody = `${body}`
             github.issues.createComment({
               issue_number: '1',
               owner: context.repo.owner,
