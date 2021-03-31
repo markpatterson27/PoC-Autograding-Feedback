@@ -63,18 +63,19 @@ jobs:
         with:
           filename: .github/templates/feedback.md
 
-      - uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const fs = require('fs')
-            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
-            github.issues.createComment({
-              issue_number: '1',
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: commentBody
-            })
+      - run: echo $(cat .github/templates/feedback.md)
+      # - uses: actions/github-script@v3
+      #   with:
+      #     github-token: ${{secrets.GITHUB_TOKEN}}
+      #     script: |
+      #       const fs = require('fs')
+      #       const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+      #       github.issues.createComment({
+      #         issue_number: '1',
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: commentBody
+      #       })
 
   # job to build custom status badges
   build-badges:
