@@ -81,13 +81,13 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const fs = require('fs')
-            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+            const { body } = process.env
+            const commentBody = `${body}`
             github.issues.createComment({
               issue_number: '1',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: ${body}
+              body: commentBody
             })
 
   # # job to build custom status badges
