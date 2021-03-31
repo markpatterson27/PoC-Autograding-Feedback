@@ -67,7 +67,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const { MESSAGE } = process.env
+            const fs = require('fs')
             const commentBody = fs.readFileSync(".github/template/feedback.md", "utf8")
             github.issues.createComment({
               issue_number: '1',
