@@ -74,7 +74,8 @@ jobs:
             return commentBody
           result-encoding: string
 
-      - uses: actions/github-script@v3
+      - name: post comment
+        uses: actions/github-script@v3
         env:
           body: ${{ steps.prep.outputs.result }}
         with:
