@@ -75,9 +75,21 @@ jobs:
         env:
           test-output: ${{ needs.build.outputs.feedback-message }}
           points: ${{ needs.build.outputs.grading-score }}
-        run: |
-          FILENAME=".github/templates/feedback.md"
-          while IFS='=' read -r -d '' -a var; do sed -i "s|\${${var[0]}}|${var[1]}|g" "$FILENAME"; done < <(printenv -0)
+        # run: |
+        #   FILENAME=".github/templates/feedback.md"
+        #   while IFS='=' read -r -d '' -a var; do sed -i "s|\${${var[0]}}|${var[1]}|g" "$FILENAME"; done < <(printenv -0)
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const fs = require('fs')
+            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+
+            console.log(process.env)
+
+            for (env in process.env) {
+              console.log(env)
+            }
+
 
       - run: echo $(cat .github/templates/feedback.md)
       # - uses: actions/github-script@v3
