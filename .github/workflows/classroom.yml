@@ -82,13 +82,15 @@ jobs:
         with:
           script: |
             const fs = require('fs')
-            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+            let commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
 
             console.log(process.env)
 
-            for (env in process.env) {
-              console.log(env)
+            for (envName in process.env) {
+              commentBody = commentBody.replace("${"+envName+"}", process.env[envName])
             }
+
+            console.log(commentBody)
 
 
       - run: echo $(cat .github/templates/feedback.md)
