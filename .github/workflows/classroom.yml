@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # reset feedback.md contents
-      - run: echo "# Autograding Feedback" > .github/feedback.md
+      - run: echo "" > .github/feedback.md
 
       # run grading
       # add id to step so outputs can be referenced
@@ -29,7 +29,6 @@ jobs:
       - name: parse feedback.md to step output
         id: feedback
         run: |
-          printf "\n\nAutograding Score: ${{ steps.autograder.outputs.Points }}" >> .github/feedback.md
           message=`cat .github/feedback.md`
           message="${message//'%'/'%25'}"
           message="${message//$'\n'/'%0A'}"
