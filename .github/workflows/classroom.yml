@@ -56,56 +56,38 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - run: printenv
-      #   env:
-      #     test-output: ${{ needs.build.outputs.feedback-message }}
-      #     points: ${{ needs.build.outputs.grading-score }}
-
-      # - uses: vafinvr/template-env-action@master
-      #   env:
-      #     test-output: |
-      #       "hello"
-      #       "  newline"
-      #     newline-char: "hello\nnewline"
-      #     points: ${{ needs.build.outputs.grading-score }}
-      #   with:
-      #     filename: .github/templates/feedback.md
-
-      - name: substitute tokens
+      - name: prepare comment and substitute tokens
+        id: prep
+        uses: actions/github-script@v3
         env:
           test-output: ${{ needs.build.outputs.feedback-message }}
           points: ${{ needs.build.outputs.grading-score }}
-        # run: |
-        #   FILENAME=".github/templates/feedback.md"
-        #   while IFS='=' read -r -d '' -a var; do sed -i "s|\${${var[0]}}|${var[1]}|g" "$FILENAME"; done < <(printenv -0)
-        uses: actions/github-script@v3
         with:
           script: |
             const fs = require('fs')
             let commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
 
-            console.log(process.env)
-
             for (envName in process.env) {
               commentBody = commentBody.replace("${"+envName+"}", process.env[envName])
             }
 
-            console.log(commentBody)
+            return commentBody
+          result-encoding: string
 
-
-      - run: echo $(cat .github/templates/feedback.md)
-      # - uses: actions/github-script@v3
-      #   with:
-      #     github-token: ${{secrets.GITHUB_TOKEN}}
-      #     script: |
-      #       const fs = require('fs')
-      #       const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
-      #       github.issues.createComment({
-      #         issue_number: '1',
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: commentBody
-      #       })
+      - uses: actions/github-script@v3
+        env:
+          body: ${{ steps.prep.outputs.result }}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs')
+            const commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+            github.issues.createComment({
+              issue_number: '1',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: ${body}
+            })
 
   # # job to build custom status badges
   # build-badges:
