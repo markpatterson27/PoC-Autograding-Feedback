@@ -56,6 +56,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - run: printenv
+        env:
+          test-output: ${{ needs.build.outputs.feedback-message }}
+          points: ${{ needs.build.outputs.grading-score }}
+
       # - uses: vafinvr/template-env-action@master
       #   env:
       #     test-output: ${{ needs.build.outputs.feedback-message }}
