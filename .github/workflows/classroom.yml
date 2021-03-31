@@ -54,6 +54,13 @@ jobs:
     if: always()
     needs: build
     steps:
+      - uses: vafinvr/template-env-action@master
+        env:
+          test-output: ${{ needs.build.outputs.feedback-message }}
+          points: ${{ needs.build.outputs.grading-score }}
+        with:
+          filename: .github/templates/feedback.md
+
       - uses: actions/github-script@v3
         env:
           MESSAGE: ${{ needs.build.outputs.feedback-message }}
