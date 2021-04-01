@@ -6,6 +6,9 @@ on:
     - '*'
     - '!badges'
 
+env:
+  FEEDBACK_TEMPLATE_PATH: ".github/templates/feedback.md"
+
 jobs:
   build:
     name: Autograding
@@ -65,7 +68,7 @@ jobs:
         with:
           script: |
             const fs = require('fs')
-            let commentBody = fs.readFileSync(".github/templates/feedback.md", "utf8")
+            let commentBody = fs.readFileSync(process.env.FEEDBACK_TEMPLATE_PATH, "utf8")
 
             for (envName in process.env) {
               commentBody = commentBody.replace("${"+envName+"}", process.env[envName])
