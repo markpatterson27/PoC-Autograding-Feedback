@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "name": "Exercise 1",
+      "setup": "",
+      "run": "/bin/bash ./.github/grading-scripts/grading.sh exercise1",
+      "input": "",
+      "output": "pass",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "Exercise 2",
+      "setup": "",
+      "run": "/bin/bash ./.github/grading-scripts/grading.sh exercise2",
+      "input": "",
+      "output": "pass",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "Exercise 3",
+      "setup": "",
+      "run": "/bin/bash ./.github/grading-scripts/grading.sh exercise3",
+      "input": "",
+      "output": "pass",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "Exercise 4",
+      "setup": "",
+      "run": "/bin/bash ./.github/grading-scripts/grading.sh exercise4",
+      "input": "",
+      "output": "pass",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    }
+  ]
+}
