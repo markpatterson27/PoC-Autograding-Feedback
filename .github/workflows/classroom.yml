@@ -8,6 +8,7 @@ on:
 
 env:
   FEEDBACK_TEMPLATE_PATH: ".github/templates/feedback.md"
+  GRADING_FEEDBACK_TEMPFILE_PATH: ".github/feedback.md"
 
 jobs:
   build:
@@ -18,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # reset feedback.md contents
-      - run: echo "" > .github/feedback.md
+      - run: echo "" > $GRADING_FEEDBACK_TEMPFILE_PATH
 
       # run grading
       # add id to step so outputs can be referenced
@@ -32,7 +33,7 @@ jobs:
       - name: parse feedback.md to step output
         id: feedback
         run: |
-          message=`cat .github/feedback.md`
+          message=`cat $GRADING_FEEDBACK_TEMPFILE_PATH`
           message="${message//'%'/'%25'}"
           message="${message//$'\n'/'%0A'}"
           message="${message//$'\r'/'%0D'}"
